@@ -1,14 +1,17 @@
 {
-  "name": "music-dashboard-polymer",
-  "version": "0.0.0",
-  "authors": [
-    "lyndeniece <lyndeniece@any.tv>"
-  ],
-  "moduleType": [
-    "node"
-  ],
-  "license": "MIT",
+  "name": "polymer-starter-kit",
+  "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.1.0"
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
+    "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "page": "visionmedia/page.js#~1.6.3",
+    "cast-player-bar-polymer": "googlecast/cast-player-bar-polymer"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
   }
 }
