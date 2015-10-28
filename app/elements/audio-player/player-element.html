@@ -27,6 +27,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 text-align: center;
                 width: 10%;
             }
+            #music-player-button {
+                display: none;
+            }
             #slider-player-button {
                 width: 60%;
                 vertical-align: middle;
@@ -42,6 +45,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 width: 75%;
                 vertical-align: middle;
             }
+            @media all and (max-width: 935px) {
+                #music-player-button {
+                    display: inline-block;
+                }
+                .player-buttons {
+                    width: 70%;
+                    float: right;
+                    text-align: right;
+                }
+                .hidden-on-medium-to-small {
+                    display: none;
+                }
+            }
         </style>
         <div class="flex player-container">
             <div class="player-buttons">
@@ -51,21 +67,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <iron-icon id="play-player-button" icon="av:pause-circle-outline"></iron-icon>
                 -->
                 <iron-icon id="next-player-button" icon="av:skip-next"></iron-icon>
+                <iron-icon id="music-player-button" icon="av:library-music"></iron-icon>
             </div>
 
-            <paper-slider id="slider-player-button"
+            <paper-slider id="slider-player-button" class="hidden-on-medium-to-small"
                 min="0"
                 max="200"
                 value="0"
                 pin={true}></paper-slider>
 
-            <div class="player-buttons">
+            <div class="player-buttons hidden-on-medium-to-small">
                 <iron-icon id="playlist-player-button" icon="av:queue-music"></iron-icon>
                 <iron-icon id="repeat-player-button" icon="av:repeat"></iron-icon>
                 <iron-icon id="shuffle-player-button" icon="av:shuffle"></iron-icon>
             </div>
 
-            <div id="volume-container" class="player-buttons">
+            <div id="volume-container" class="player-buttons hidden-on-medium-to-small">
                 <iron-icon id="volume-player-button" icon="av:volume-up"></iron-icon>
                 <paper-slider id="volume-slider-player-button"
                     min="10"

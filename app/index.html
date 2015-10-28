@@ -62,31 +62,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body unresolved class="fullbleed layout vertical">
     <span id="browser-sync-binding"></span>
     <template is="dom-bind" id="app">
-        <style>
-            :host {
-            }
-        </style>
-        <paper-scroll-header-panel class="flex">
-            <paper-toolbar class="medium-tall">
-                <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
-                <player-element id="player"></player-element>
-                <paper-icon-button id="morebutton" icon="more-vert"></paper-icon-button>
+        <paper-scroll-header-panel main condenses keep-condensed-header>
+            <paper-toolbar id="mainToolbar" class="flex">
+                <div class="flex header-contents">
+                    <div class="logo">
+                        <a href="#">
+                            <img class="logo-img" src="images/logo.png" width="45px">
+                            <span class="logo-title">TUNES</span>
+                        </a>
+                    </div>
+                    <div class="search-box">
+                        <paper-icon-button icon="search"></paper-icon-button>
+                        <input type="search" placeholder="Search">
+                    </div>
+                </div>
 
-                <paper-tabs class="bottom fit" selected="{{selected}}">
+                <paper-icon-button icon="more-vert"></paper-icon-button>
+
+            </paper-toolbar>
+            <div class="content">
+                <paper-tabs selected="{{selected}}">
                     <paper-tab>SPOTLIGHT</paper-tab>
-                    <paper-tab>ARTISTS</paper-tab>
                     <paper-tab>TRACKS</paper-tab>
-                    <paper-tab>GENRES</paper-tab>
+                    <paper-tab>ARTISTS</paper-tab>
                     <paper-tab>ALBUMS</paper-tab>
                 </paper-tabs>
-            </paper-toolbar>
-
-            <div id="main-content">
-                <card-element selected="{{selected}}"></card-element>
+                <card-element></card-element>
             </div>
-
         </paper-scroll-header-panel>
-        <audio id="audio-player" ref="audio_player" src="" autoPlay type="audio/mp3"></audio>
     </template>
 
     <!-- build:js scripts/app.js -->

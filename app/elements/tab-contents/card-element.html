@@ -24,36 +24,79 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 margin: auto;
                 text-align: center;
             }
+            /* Paper Cards */
             paper-card {
                 width: 23%;
                 margin: 5px;
+                min-width: 160px;
             }
             .card-content {
                 text-align: left;
             }
+            .title {
+                display: block;
+                font-size: 16px;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
+                white-space: nowrap;
+            }
+            .subtitle {
+                display: block;
+                font-size: 12px;
+                color: #b5b5b5;
+            }
+            .card-actions {
+                text-align: right;
+                padding: 0;
+            }
             iron-icon {
                 width: 24px;
+            }
+            paper-button {
+                display: inline-block;
+                padding: 5px;
+                border-right: 1px solid #eee;
+            }
+
+            /* Responsive */
+            @media all and (max-width: 1000px) {
+                section {
+                    width: 90%;
+                }
+            }
+            @media all and (max-width: 768px) {
+                paper-card {
+                    width: calc(50% - 100px);
+                    min-width: 265px;
+                }
             }
         </style>
         <iron-pages selected="{{selected}}">
             <section>
                 <template is="dom-repeat" items="{{items}}">
                     <paper-card image="{{item.album_cover}}">
-                        <div class="card-content">{{item.title}}</div>
+                        <div class="card-content">
+                            <span class="title">{{item.song}}</span>
+                        </div>
                     </paper-card>
                 </template>
             </section>
             <section>
                 <template is="dom-repeat" items="{{items}}">
                     <paper-card image="{{item.album_cover}}">
-                        <div class="card-content">{{item.title}}</div>
+                        <div class="card-content">
+                            <span class="title">{{item.artist}}</span>
+                        </div>
                     </paper-card>
                 </template>
             </section>
             <section>
                 <template is="dom-repeat" items="{{items}}">
                     <paper-card image="{{item.album_cover}}">
-                        <div class="card-content">{{item.title}}</div>
+                        <div class="card-content">
+                            <span class="title">{{item.song}}</span>
+                            <span class="subtitle">{{item.artist}}</span>
+                        </div>
                         <div class="card-actions">
                             <paper-button>
                                 <iron-icon id="add-to-playlist" icon="av:playlist-add"></iron-icon>
@@ -74,14 +117,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section>
                 <template is="dom-repeat" items="{{items}}">
                     <paper-card image="{{item.album_cover}}">
-                        <div class="card-content">{{item.title}}</div>
+                        <div class="card-content">
+                            <span class="title">{{item.song}}</span>
+                        </div>
                     </paper-card>
                 </template>
             </section>
             <section>
                 <template is="dom-repeat" items="{{items}}">
                     <paper-card image="{{item.album_cover}}">
-                        <div class="card-content">{{item.title}}</div>
+                        <div class="card-content">
+                            <span class="title">{{item.album}}</span>
+                            <span class="subtitle">{{item.artist}}</span>
+                        </div>
                         <div class="card-actions">
                             <paper-button>
                                 <iron-icon id="add-to-playlist" icon="av:playlist-add"></iron-icon>
@@ -121,56 +169,84 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     this.items = [
                         {
                             track_id: 1,
-                            title: "Like We Used To",
+                            song: "Like We Used To",
                             artist: "A Rocket to the Moon",
                             album: "Wild and Free",
                             album_cover: "images/arttm2.jpg"
                         },
                         {
                             track_id: 2,
-                            title: "Decode",
+                            song: "Decode",
                             artist: "Paramore",
                             album: "Singles Club",
                             album_cover: "images/SinglesClubEP.jpg"
                         },
                         {
                             track_id: 3,
-                            title: "Boring Brick",
+                            song: "Boring Brick",
                             artist: "Paramore",
                             album: "Singles Club",
                             album_cover: "images/paramore2.jpg"
                         },
                         {
                             track_id: 4,
-                            title: "Crush Crush Crush",
+                            song: "Crush Crush Crush",
                             artist: "Paramore",
                             album: "Singles Club",
                             album_cover: "images/paramore.jpg"
                         },
                         {
                             track_id: 5,
-                            title: "Last Hope",
+                            song: "Last Hope",
                             artist: "Paramore",
                             album: "Singles Club",
                             album_cover: "images/SinglesClubEP.jpg"
                         },
                         {
                             track_id: 6,
-                            title: "Ever Enough",
+                            song: "Ever Enough",
                             artist: "A Rocket to the Moon",
                             album: "Wild and Free",
                             album_cover: "images/arttm.jpg"
                         },
                         {
                             track_id: 7,
-                            title: "First Love",
+                            song: "First Love",
                             artist: "A Rocket to the Moon",
                             album: "Wild and Free",
                             album_cover: "images/arttm2.jpg"
                         },
                         {
                             track_id: 8,
-                            title: "Ignorance",
+                            song: "Ignorance",
+                            artist: "Paramore",
+                            album: "Singles Club",
+                            album_cover: "images/paramore.jpg"
+                        },
+                        {
+                            track_id: 9,
+                            song: "Last Hope",
+                            artist: "Paramore",
+                            album: "Singles Club",
+                            album_cover: "images/SinglesClubEP.jpg"
+                        },
+                        {
+                            track_id: 10,
+                            song: "Ever Enough",
+                            artist: "A Rocket to the Moon",
+                            album: "Wild and Free",
+                            album_cover: "images/arttm.jpg"
+                        },
+                        {
+                            track_id: 11,
+                            song: "First Love",
+                            artist: "A Rocket to the Moon",
+                            album: "Wild and Free",
+                            album_cover: "images/arttm2.jpg"
+                        },
+                        {
+                            track_id: 12,
+                            song: "Ignorance",
                             artist: "Paramore",
                             album: "Singles Club",
                             album_cover: "images/paramore.jpg"
