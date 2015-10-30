@@ -1,0 +1,397 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+
+<dom-module id="f-auplayer">
+  <template>
+
+    <style>
+        :host {
+            display: block;
+            margin: auto;
+            position: fixed;
+            bottom: 0;
+            box-sizing: border-box;
+            width: 100%;
+            font-family: 'Roboto Mono', 'Helvetica Neue', Arial, sans-serif;
+        }
+        #wrapper {
+            position: relative;
+            cursor: pointer;
+            height: 50px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.3);
+        }
+        #left,
+        #right {
+            height: 50px;
+            position: relative;
+        }
+        #left {
+            background-color: var(--f-auplayer-color);;
+            padding: 10px 5px 5px 15px;
+            width: 120px;
+        }
+        #left .controls.big {
+            width: 30px;
+            height: 30px;
+        }
+        #left .controls.small {
+            width: 20px;
+            height: 20px;
+        }
+        #right {
+            background-color: var(--f-auplayer-color);
+            width: 120px;
+        }
+        #right #options .options {
+            padding: 12px 0px 10px 5px;
+            margin-left: 10px;
+        }
+        #time,
+        #icon,
+        .controls {
+            color: #fff;
+        }
+        #time,
+        #duration,
+        #title {
+            text-align: center;
+            line-height: 50px;
+        }
+        #time,
+        #duration {
+            font-size: 11px;
+        }
+        #duration {
+            color: #ffffff
+        }
+        #icon,
+        #play,
+        #options {
+            margin: auto;
+        }
+        #options {
+            color: #ffffff;
+        }
+        #icon,
+        #options {
+            opacity: 0;
+        }
+        #title {
+            pointer-events: none;
+            z-index: 2;
+            font-size: 15px;
+            color: #ffffff
+        }
+        #title a.avatar {
+            margin: 0px 5px 5px 5px;
+            width: 35px;
+            height: 35px;
+            display: inline-block;
+            position: relative;
+            vertical-align:middle;
+            top: 0;
+        }
+        #title a.avatar .img {
+            background-size: cover;
+            background-position: center;
+            width: 35px;
+            height: 35px;
+        }
+
+        paper-progress {
+            position: relative;
+            width: 100%;
+            --paper-progress-active-color: var(--f-auplayer-color);
+            --paper-progress-container-color: rgba(66, 66, 66, 1);
+            --paper-progress-height: 50px;
+        }
+
+        /* On hover */
+        #left:hover #icon,
+        :host:not(.cantplay) #right:hover #options {
+            opacity: 1;
+        }
+        #right:hover #duration {
+            opacity: 0;
+        }
+        :host:not(.cantplay) #center:hover #title{
+            color: #ffffff;
+        }
+
+        #left .controls:hover, #right .options {
+            transform: scale3d(1.1, 1.1, 1.1);
+            -ms-transform: scale3d(1.1, 1.1, 1.1);
+            -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        }
+
+        /* On Error */
+        :host(.cantplay) #title {
+            font-size: 12px;
+        }
+        :host(.cantplay) #wrapper {
+            cursor: default;
+        }
+        :host(.cantplay) #play {
+            opacity: 0;
+        }
+        :host(.cantplay) #icon {
+            opacity: 1;
+        }
+
+        /* Flexbox Helpers */
+        .layout-horizontal {
+            display: flex;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            -ms-flex-direction: row;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+        }
+        .flex {
+            -ms-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+        .self-start {
+            -ms-align-self: flex-start;
+            -webkit-align-self: flex-start;
+            align-self: flex-start;
+        }
+        .self-end {
+            -ms-align-self: flex-end;
+            -webkit-align-self: flex-end;
+            align-self: flex-end;
+        }
+    </style>
+
+    <div id="wrapper" class="layout-horizontal">
+
+      <div id="left" class="self-start" on-mouseover="showControls" on-mouseout="hideControls">
+
+        <!-- Icon -->
+        <div id="controls" hidden$="{{ !visibleControls }}">
+            <iron-icon id="prev" class="controls big" icon="av:skip-previous"></iron-icon>
+            <iron-icon id="play" class="controls big" on-click="playPause"></iron-icon>
+            <iron-icon id="next" class="controls big" icon="av:skip-next"></iron-icon>
+        </div>
+        <!-- Current time -->
+        <div id="time" class="fit" hidden$="{{ visibleControls }}">
+          <span class="fit">{{ _convertSecToMin(currentTime) }}</span>
+        </div>
+      </div>
+
+      <div id="center" class="flex">
+        <!-- Title -->
+        <div id="title" class="fit">
+            <a class="avatar" href="">
+                <div class="img" style="background-image:  url(/images/users/user-1.jpg);"></div>
+            </a>
+            <span>{{ title }}</span>
+        </div>
+
+        <!-- Audio HTML5 element -->
+        <audio id="audio" src="{{ src }}"></audio>
+
+        <!-- Paper progress bar -->
+        <paper-progress id="progress"
+                        step=0.001
+                        value="[[ currentTime ]]"
+                        max="[[ duration ]]"
+                        min=0
+                        on-down="_onDown"></paper-progress>
+      </div>
+
+      <div id="right" class="self-end">
+
+        <!-- Duration -->
+        <div id="duration" class="fit" hidden$="{{ ended }}">
+          <span class="fit">{{ _convertSecToMin(duration) }}</span>
+        </div>
+
+        <!-- Icon -->
+        <div id="options">
+            <iron-icon id="volume" class="options" icon="av:volume-up" on-click="mute"></iron-icon>
+            <iron-icon id="replay" class="options" icon="av:replay" on-click="restart"></iron-icon>
+        </div>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+        is: 'f-auplayer',
+        // Define public properties
+        properties: {
+            src: {
+              type: String,
+              observer: "_srcChanged"
+            },
+            title: {
+              type: String,
+              value: 'Click to play this audio file'
+            },
+            color: {
+              type: String,
+              observer: '_changeColor'
+            },
+            autoPlay: {
+              type: Boolean,
+              value: false
+            },
+            currentTime: {
+              type: Number,
+              value: 0,
+              notify: true
+            },
+            duration: {
+              type: Number,
+              value: 0
+            }
+          },
+        // Register event listeners
+        listeners: {
+            'audio.loadedmetadata'  : '_onCanPlay',
+            'audio.playing'         : '_onPlaying',
+            'audio.pause'           : '_onPause',
+            'audio.ended'           : '_onEnd',
+            'audio.error'           : '_onError'
+        },
+        // When element is created
+        ready: function() {
+            var player = this;
+            //
+            // create Player defaults
+            player.canBePlayed = false;
+            player.isPlaying = false;
+            player.ended = false;
+            player.icon = '';
+            player.visibleControls = true;
+        },
+        // Play/Pause controls
+        playPause: function(e){
+            e.preventDefault();
+            var player = this;
+
+            if ( player.canBePlayed ) {
+                if (player.isPlaying) {
+                    player.$.audio.pause();
+                    player.$.play.setAttribute('icon', 'av:play-circle-outline');
+                }
+                else {
+                    player.$.audio.play();
+                    player.$.play.setAttribute('icon', 'av:pause-circle-outline');
+                }
+
+                player.isPlaying = !player.isPlaying;
+            }
+        },
+        restart: function(e){
+            e.preventDefault();
+            var player = this;
+            player.$.audio.currentTime = 0;
+            if ( !player.isPlaying ) player.$.audio.play();
+        },
+        _onCanPlay: function() {
+            var player = this;
+            player.canBePlayed = true;
+            player.icon = 'av:pause-circle-outline';
+            player.$.play.setAttribute('icon', 'av:play-circle-outline');
+            player.duration = player.$.audio.duration;
+            if (player.autoPlay) player.$.audio.play();
+        },
+        _onPlaying: function() {
+            var player = this;
+            player.ended = false;
+            player.isPlaying = true;
+            player._startProgressTimer();
+        },
+        _startProgressTimer: function() {
+            var player = this;
+            player.timer = {};
+            if (player.timer.sliderUpdateInterval) { clearInterval(player.timer.sliderUpdateInterval); }
+            player.timer.sliderUpdateInterval = setInterval( function() {
+              if ( player.isPlaying ) {
+                player.currentTime = player.$.audio.currentTime;
+              } else {
+                clearInterval(player.timer.sliderUpdateInterval);
+              }
+            }, 120);
+        },
+        _onPause: function() {
+            var player = this;
+            player.isPlaying = false;
+        },
+        _onEnd: function() {
+            var player = this;
+            player.ended = true;
+            player.isPlaying = false;
+            player.currentTime = 0;
+        },
+        _onError: function() {
+            var player = this;
+            player.classList.add('cantplay');
+            player.title = 'Sorry, can\'t play track: ' + player.title;
+            player.icon = 'av:not-interested';
+            player.$.icon.removeAttribute('hidden');
+        },
+        _convertSecToMin: function(seconds){
+            if (seconds === 0) {
+              return '';
+            }
+            var minutes = Math.floor(seconds / 60);
+            var secondsToCalc = Math.floor(seconds % 60) + '';
+            return minutes + ':' + (secondsToCalc.length < 2 ? '0' + secondsToCalc : secondsToCalc);
+        },
+        _onDown: function(e) {
+            e.preventDefault();
+            var x, r,
+                player = this;
+            x = e.detail.x - player.offsetLeft - player.$.left.offsetWidth;
+            r = (x / player.$.progress.offsetWidth) * player.duration;
+            player.currentTime = player.$.audio.currentTime = r;
+        },
+        _srcChanged: function(oldValue, newValue) {
+            var player = this;
+            if (player.isPlaying) {
+              player.$.audio.pause();
+              player.$.audio.play();
+            }
+          },
+        _changeColor: function(newValue) {
+            var player = this;
+            player.querySelector('paper-progress #primaryProgress.paper-progress').style.backgroundColor = newValue;
+            player.$.left.style.backgroundColor = newValue;
+            player.$.title.style.color = newValue;
+            player.$.duration.style.color = newValue;
+            player.$.replay.style.color = newValue;
+        },
+        mute: function () {
+            var player = this;
+
+            if (player.$.audio.muted) {
+                player.$.volume.setAttribute('icon', 'av:volume-up');
+            }
+            else {
+                player.$.volume.setAttribute('icon', 'av:volume-mute');
+            }
+
+            player.$.audio.muted = !player.$.audio.muted;
+        },
+
+        /* doom events */
+        showControls: function (e) {
+            var player = this;
+
+            player.visibleControls = true;
+        },
+        hideControls: function (e) {
+            var player = this;
+
+            player.visibleControls = player.isPlaying ? false: true;
+        }
+    });
+  </script>
+
+</dom-module>
