@@ -2,6 +2,9 @@
 <dom-module id="shared-styles">
     <template>
         <style>
+            :host {
+
+            }
             .page-title {
                 @apply(--paper-font-display2);
             }
@@ -50,6 +53,33 @@
             }
             .search-box input:focus {
                 outline: 0;
+            }
+
+            paper-dropdown-menu.genre-dropdown {
+                --paper-dropdown-menu-button: {
+                    padding: 0;
+                };
+                --paper-dropdown-menu-input: {
+                    border: none;
+                };
+                --paper-input-container: {
+                    padding: 0;
+                };
+                --paper-input-container-color: {
+                    color: var(--paper-grey-50);
+                }
+                --paper-input-container-input: {
+                    text-align: right;
+                }
+                --paper-input-container-label: {
+                    text-align: right;
+                }
+                --paper-input-container-underline: {
+                    display: none;
+                };
+                --paper-input-container-underline-focus: {
+                    display: none;
+                };
             }
 
             @media (max-width: 600px) {

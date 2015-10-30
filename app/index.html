@@ -82,13 +82,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-toolbar>
             <div class="content">
                 <paper-tabs selected="{{selected}}">
-                    <paper-tab>SPOTLIGHT</paper-tab>
-                    <paper-tab>TRACKS</paper-tab>
-                    <paper-tab>ARTISTS</paper-tab>
-                    <paper-tab>ALBUMS</paper-tab>
+                    <paper-dropdown-menu label="Genres" class="genre-dropdown">
+                        <paper-menu class="dropdown-content">
+                            <template is="dom-repeat" items="[[genres]]" as="genre">
+                                <paper-item>[[genre]]</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-dropdown-menu>
+                    <template is="dom-repeat" items="[[tabs]]" as="tab">
+                        <paper-tab>[[tab]]</paper-tab>
+                    </template>
                 </paper-tabs>
                 <card-element selected="{{selected}}"></card-element>
             </div>
+            <f-auplayer src="/music/Nickelback - Photograph.mp3" title="Photograph"></f-auplayer>
         </paper-scroll-header-panel>
     </template>
 
@@ -96,9 +103,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="scripts/app.js"></script>
     <script type="text/javascript">
         document.addEventListener('WebComponentsReady', function () {
-            var content = document.querySelector('iron-pages');
-            content.selected = 0; // selected is an index by default
+            var content = document.querySelector('paper-tabs');
+            content.selected = 1; // selected is an index by default
         });
+
+        app.genres = [
+            'Ballad',
+            'Dubstep',
+            'Electric',
+            'Heavy Metal',
+            'Pop',
+            'R&B',
+            'Rock'
+        ];
+
+        app.tabs = [
+            'SPOTLIGHT',
+            'TRACKS',
+            'ARTISTS',
+            'ALBUMS'
+        ];
     </script>
     <!-- endbuild-->
 </body>
