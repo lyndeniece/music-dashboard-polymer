@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/lodash-import/lodash.js.html">
 
 <dom-module id="card-element">
     <template>
@@ -212,47 +213,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 allLabelsHandler: function () {
                     this.labelResults = this.allLabels.data.results;
 
-                    for (var i = 0; i < this.labelResults.length; i++) {
-                        this.labelResults[i].logo = this.labelResults[i].logo
-                                                ? this.labelResults[i].logo
-                                                : '/images/cover-art.png';
-                    }
+                    _.map(this.labelResults, function (item) {
+                        item.logo = item.logo
+                                    ? item.logo
+                                    : '/images/cover-art.png';
+                    });
                 },
 
                 allTracksHandler: function () {
                     this.trackResults = this.allTracks.data.results;
 
-                    for (var i = 0; i < this.trackResults.length; i++) {
-                        var track = this.trackResults[i];
-
-                        track.album_cover = track.album_cover
-                                            ? track.album_cover
+                    _.map(this.trackResults, function (item) {
+                        item.title = item.title ? item.title : 'Untitled';
+                        item.artist = item.artist ? item.artist : 'No Artist';
+                        item.album_cover = item.album_cover
+                                            ? item.album_cover
                                             : '/images/cover-art.png';
-                    }
+                    });
                 },
 
                 allArtistsHandler: function () {
                     this.artistResults = this.allArtists.data.results;
 
-                    for (var i = 0; i < this.artistResults.length; i++) {
-                        var artist = this.artistResults[i];
-
-                        artist.picture = artist.picture
-                                        ? artist.picture
+                    _.map(this.artistResults, function (item) {
+                        item.picture = item.picture
+                                        ? item.picture
                                         : '/images/cover-art.png';
-                    }
+                    });
                 },
 
                 allAlbumsHandler: function () {
                     this.albumResults = this.allAlbums.data.results;
 
-                    for (var i = 0; i < this.albumResults.length; i++) {
-                        var album = this.albumResults[i];
+                    _.map(this.albumResults, function (item) {
+                        item.artist = item.artist ? item.artist : 'No Artist';
 
-                        album.cover = album.cover
-                                    ? album.cover
+                        item.cover = item.cover
+                                    ? item.cover
                                     : '/images/cover-art.png';
-                    }
+                    });
                 }
             });
         })();
