@@ -1,0 +1,92 @@
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles">
+    <template>
+        <style>
+            :host {
+
+            }
+            .page-title {
+                @apply(--paper-font-display2);
+            }
+
+            .logo {
+                display: inline-block;
+                vertical-align: middle;
+                width: 125px;
+                margin-right: 10px;
+            }
+
+            .logo-img,
+            .logo-title {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            .logo-title {
+                color: var(--paper-grey-50);
+                font-size: 18px;
+                font-weight: 500;
+            }
+
+            .search-box {
+                @apply(--shadow-elevation-2dp);
+                display: inline-block;
+                vertical-align: middle;
+                background-color: var(--paper-grey-50);
+                border-radius: 3px;
+                position: relative;
+                width: 50%;
+            }
+            .search-box paper-icon-button {
+                color: var(--google-grey-500);
+                position: absolute;
+                left: 0;
+            }
+            .search-box input {
+                vertical-align: middle;
+                background: none;
+                border: none;
+                font-size: 16px;
+                line-height: 2.5;
+                padding-left: 35px;
+                width: 100%;
+            }
+            .search-box input:focus {
+                outline: 0;
+            }
+
+            paper-dropdown-menu.genre-dropdown {
+                --paper-dropdown-menu-button: {
+                    padding: 0;
+                };
+                --paper-dropdown-menu-input: {
+                    border: none;
+                };
+                --paper-input-container: {
+                    padding: 0;
+                };
+                --paper-input-container-color: {
+                    color: var(--paper-grey-50);
+                }
+                --paper-input-container-input: {
+                    text-align: right;
+                }
+                --paper-input-container-label: {
+                    text-align: right;
+                }
+                --paper-input-container-underline: {
+                    display: none;
+                };
+                --paper-input-container-underline-focus: {
+                    display: none;
+                };
+            }
+
+            @media (max-width: 600px) {
+                .page-title {
+                    font-size: 24px!important;
+                }
+            }
+        </style>
+    </template>
+</dom-module>
