@@ -81,19 +81,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             </paper-toolbar>
             <div class="content">
-                <paper-tabs selected="{{selected}}">
-                    <paper-dropdown-menu label="Genres" class="genre-dropdown">
-                        <paper-menu class="dropdown-content">
-                            <template is="dom-repeat" items="[[genres]]" as="genre">
-                                <paper-item>[[genre]]</paper-item>
-                            </template>
-                        </paper-menu>
-                    </paper-dropdown-menu>
-                    <template is="dom-repeat" items="[[tabs]]" as="tab">
-                        <paper-tab>[[tab]]</paper-tab>
-                    </template>
-                </paper-tabs>
-                <card-element selected="{{selected}}"></card-element>
+                <item-page data-route="album-page"></item-page>
+                <!-- <section data-route="home">
+                    <paper-tabs selected="{{selected}}">
+                        <paper-dropdown-menu label="Genres" class="genre-dropdown">
+                            <paper-menu class="dropdown-content">
+                                <template is="dom-repeat" items="[[genres]]" as="genre">
+                                    <paper-item>[[genre]]</paper-item>
+                                </template>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                        <template is="dom-repeat" items="[[tabs]]" as="tab">
+                            <paper-tab>[[tab]]</paper-tab>
+                        </template>
+                    </paper-tabs>
+                    <item-cards selected="{{selected}}"></item-cards>
+                </section> -->
             </div>
             <f-auplayer src="/music/Nickelback - Photograph.mp3" title="Photograph"></f-auplayer>
         </paper-scroll-header-panel>
