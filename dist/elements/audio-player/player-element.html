@@ -1,0 +1,112 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="player-element">
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+                --paper-slider-active-color: var(--accent-color);
+                --paper-slider-knob-color: var(--accent-color);
+                --paper-slider-pin-color: var(--accent-color);
+                --paper-slider-height: 2px;
+            }
+            .player-buttons {
+                display: inline-block;
+                vertical-align: middle;
+                text-align: center;
+                width: 10%;
+            }
+            #music-player-button {
+                display: none;
+            }
+            #slider-player-button {
+                width: 60%;
+                vertical-align: middle;
+            }
+            #volume-container {
+                width: 15%;
+            }
+            #volume-player-button {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            #volume-slider-player-button {
+                width: 75%;
+                vertical-align: middle;
+            }
+            @media all and (max-width: 935px) {
+                #music-player-button {
+                    display: inline-block;
+                }
+                .player-buttons {
+                    width: 70%;
+                    float: right;
+                    text-align: right;
+                }
+                .hidden-on-medium-to-small {
+                    display: none;
+                }
+            }
+        </style>
+        <div class="flex player-container">
+            <div class="player-buttons">
+                <iron-icon id="previous-player-button" icon="av:skip-previous"></iron-icon>
+                <iron-icon id="play-player-button" icon="av:play-circle-outline"></iron-icon>
+                <!--
+                <iron-icon id="play-player-button" icon="av:pause-circle-outline"></iron-icon>
+                -->
+                <iron-icon id="next-player-button" icon="av:skip-next"></iron-icon>
+                <iron-icon id="music-player-button" icon="av:library-music"></iron-icon>
+            </div>
+
+            <paper-slider id="slider-player-button" class="hidden-on-medium-to-small"
+                min="0"
+                max="200"
+                value="0"
+                pin={true}></paper-slider>
+
+            <div class="player-buttons hidden-on-medium-to-small">
+                <iron-icon id="playlist-player-button" icon="av:queue-music"></iron-icon>
+                <iron-icon id="repeat-player-button" icon="av:repeat"></iron-icon>
+                <iron-icon id="shuffle-player-button" icon="av:shuffle"></iron-icon>
+            </div>
+
+            <div id="volume-container" class="player-buttons hidden-on-medium-to-small">
+                <iron-icon id="volume-player-button" icon="av:volume-up"></iron-icon>
+                <paper-slider id="volume-slider-player-button"
+                    min="10"
+                    max="100"
+                    value="75"
+                    pin={true}></paper-slider>
+                <!--
+                <iron-icon id="volume-player-button" icon="av:volume-down"></iron-icon>
+                <iron-icon id="volume-player-button" icon="av:volume-mute"></iron-icon>
+                <iron-icon id="volume-player-button" icon="av:volume-off"></iron-icon>
+                -->
+            </div>
+        </div>
+    </template>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            Polymer({
+                is: 'player-element'
+             
+            });
+        })();
+    </script>
+
+</dom-module>
